@@ -1,0 +1,372 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.buuhybWL.www.dao.LogisticsMapper">
+  <resultMap id="BaseResultMap" type="com.buuhybWL.www.bean.Logistics">
+    <id column="l_id" jdbcType="INTEGER" property="lId" />
+    <result column="to_Address" jdbcType="VARCHAR" property="toAddress" />
+    <result column="to_Name" jdbcType="VARCHAR" property="toName" />
+    <result column="to_Phone" jdbcType="VARCHAR" property="toPhone" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="way" jdbcType="VARCHAR" property="way" />
+    <result column="weight" jdbcType="INTEGER" property="weight" />
+    <result column="money" jdbcType="DOUBLE" property="money" />
+    <result column="kinds" jdbcType="VARCHAR" property="kinds" />
+    <result column="l_number" jdbcType="VARCHAR" property="lNumber" />
+  </resultMap>
+  <resultMap id="withOrdersResultMap" type="com.buuhybWL.www.bean.Logistics">
+    <id column="l_id" jdbcType="INTEGER" property="lId" />
+    <result column="to_Address" jdbcType="VARCHAR" property="toAddress" />
+    <result column="to_Name" jdbcType="VARCHAR" property="toName" />
+    <result column="to_Phone" jdbcType="VARCHAR" property="toPhone" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="way" jdbcType="VARCHAR" property="way" />
+    <result column="weight" jdbcType="INTEGER" property="weight" />
+    <result column="money" jdbcType="DOUBLE" property="money" />
+    <result column="kinds" jdbcType="VARCHAR" property="kinds" />
+    <result column="l_number" jdbcType="VARCHAR" property="lNumber" />
+    <association property="orders" javaType="com.buuhybWL.www.bean.Orders">
+      <id column="o_id" property="oId"/>
+      <result column="o_number" property="oNumber"/>
+      <result column="o_date" property="oDate"/>
+      <result column="o_status" property="oStatus"/>
+      <result column="o_s_id" property="oSId"/>
+      <result column="o_price" property="oPrice"/>
+      <result column="o_uId" property="oUid"/>
+    </association>
+
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    l_id, to_Address, to_Name, to_Phone, address, name, phone, way, weight, money, kinds, 
+    l_number
+  </sql>
+  <sql id="withOrders_Column_List">
+    l_id, to_Address, to_Name, to_Phone, address, name, phone, way, weight, money, kinds,
+    l_number,o_id,o_number,o_date,o_status,o_s_id,o_price,o_uId
+  </sql>
+  <select id="selectByExample" parameterType="com.buuhybWL.www.bean.LogisticsExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from logistics
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from logistics
+    where l_id = #{lId,jdbcType=INTEGER}
+  </select>
+  <select id="selectByExampleWithOrders" parameterType="com.buuhybWL.www.bean.LogisticsExample" resultMap="withOrdersResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="withOrders_Column_List" />
+    from logistics l left join orders o on l.l_number=o.o_number
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKeyWithOrders" parameterType="java.lang.Integer" resultMap="withOrdersResultMap">
+    select
+    <include refid="withOrders_Column_List" />
+    from logistics l left join orders o on l.l_number=o.o_number
+    where l_id = #{lId,jdbcType=INTEGER} and l_number=o_number
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from logistics
+    where l_id = #{lId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.buuhybWL.www.bean.LogisticsExample">
+    delete from logistics
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.buuhybWL.www.bean.Logistics">
+    insert into logistics (l_id, to_Address, to_Name, 
+      to_Phone, address, name, 
+      phone, way, weight, 
+      money, kinds, l_number
+      )
+    values (#{lId,jdbcType=INTEGER}, #{toAddress,jdbcType=VARCHAR}, #{toName,jdbcType=VARCHAR}, 
+      #{toPhone,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{phone,jdbcType=VARCHAR}, #{way,jdbcType=VARCHAR}, #{weight,jdbcType=INTEGER}, 
+      #{money,jdbcType=DOUBLE}, #{kinds,jdbcType=VARCHAR}, #{lNumber,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.buuhybWL.www.bean.Logistics">
+    insert into logistics
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="lId != null">
+        l_id,
+      </if>
+      <if test="toAddress != null">
+        to_Address,
+      </if>
+      <if test="toName != null">
+        to_Name,
+      </if>
+      <if test="toPhone != null">
+        to_Phone,
+      </if>
+      <if test="address != null">
+        address,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="phone != null">
+        phone,
+      </if>
+      <if test="way != null">
+        way,
+      </if>
+      <if test="weight != null">
+        weight,
+      </if>
+      <if test="money != null">
+        money,
+      </if>
+      <if test="kinds != null">
+        kinds,
+      </if>
+      <if test="lNumber != null">
+        l_number,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="lId != null">
+        #{lId,jdbcType=INTEGER},
+      </if>
+      <if test="toAddress != null">
+        #{toAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="toName != null">
+        #{toName,jdbcType=VARCHAR},
+      </if>
+      <if test="toPhone != null">
+        #{toPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="way != null">
+        #{way,jdbcType=VARCHAR},
+      </if>
+      <if test="weight != null">
+        #{weight,jdbcType=INTEGER},
+      </if>
+      <if test="money != null">
+        #{money,jdbcType=DOUBLE},
+      </if>
+      <if test="kinds != null">
+        #{kinds,jdbcType=VARCHAR},
+      </if>
+      <if test="lNumber != null">
+        #{lNumber,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.buuhybWL.www.bean.LogisticsExample" resultType="java.lang.Long">
+    select count(*) from logistics
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update logistics
+    <set>
+      <if test="record.lId != null">
+        l_id = #{record.lId,jdbcType=INTEGER},
+      </if>
+      <if test="record.toAddress != null">
+        to_Address = #{record.toAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.toName != null">
+        to_Name = #{record.toName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.toPhone != null">
+        to_Phone = #{record.toPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.address != null">
+        address = #{record.address,jdbcType=VARCHAR},
+      </if>
+      <if test="record.name != null">
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.phone != null">
+        phone = #{record.phone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.way != null">
+        way = #{record.way,jdbcType=VARCHAR},
+      </if>
+      <if test="record.weight != null">
+        weight = #{record.weight,jdbcType=INTEGER},
+      </if>
+      <if test="record.money != null">
+        money = #{record.money,jdbcType=DOUBLE},
+      </if>
+      <if test="record.kinds != null">
+        kinds = #{record.kinds,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lNumber != null">
+        l_number = #{record.lNumber,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update logistics
+    set l_id = #{record.lId,jdbcType=INTEGER},
+      to_Address = #{record.toAddress,jdbcType=VARCHAR},
+      to_Name = #{record.toName,jdbcType=VARCHAR},
+      to_Phone = #{record.toPhone,jdbcType=VARCHAR},
+      address = #{record.address,jdbcType=VARCHAR},
+      name = #{record.name,jdbcType=VARCHAR},
+      phone = #{record.phone,jdbcType=VARCHAR},
+      way = #{record.way,jdbcType=VARCHAR},
+      weight = #{record.weight,jdbcType=INTEGER},
+      money = #{record.money,jdbcType=DOUBLE},
+      kinds = #{record.kinds,jdbcType=VARCHAR},
+      l_number = #{record.lNumber,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.buuhybWL.www.bean.Logistics">
+    update logistics
+    <set>
+      <if test="toAddress != null">
+        to_Address = #{toAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="toName != null">
+        to_Name = #{toName,jdbcType=VARCHAR},
+      </if>
+      <if test="toPhone != null">
+        to_Phone = #{toPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="way != null">
+        way = #{way,jdbcType=VARCHAR},
+      </if>
+      <if test="weight != null">
+        weight = #{weight,jdbcType=INTEGER},
+      </if>
+      <if test="money != null">
+        money = #{money,jdbcType=DOUBLE},
+      </if>
+      <if test="kinds != null">
+        kinds = #{kinds,jdbcType=VARCHAR},
+      </if>
+      <if test="lNumber != null">
+        l_number = #{lNumber,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where l_id = #{lId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.buuhybWL.www.bean.Logistics">
+    update logistics
+    set to_Address = #{toAddress,jdbcType=VARCHAR},
+      to_Name = #{toName,jdbcType=VARCHAR},
+      to_Phone = #{toPhone,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      way = #{way,jdbcType=VARCHAR},
+      weight = #{weight,jdbcType=INTEGER},
+      money = #{money,jdbcType=DOUBLE},
+      kinds = #{kinds,jdbcType=VARCHAR},
+      l_number = #{lNumber,jdbcType=VARCHAR}
+    where l_id = #{lId,jdbcType=INTEGER}
+  </update>
+</mapper>

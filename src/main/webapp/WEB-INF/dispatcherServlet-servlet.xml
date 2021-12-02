@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd
+     ">
+
+    <!--配置SpringMVC-->
+    <context:component-scan base-package="com.buuhybWL.www" use-default-filters="false">
+        <!--只是扫描控制器-->
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+    </context:component-scan>
+
+    <!--配置视图解析器-->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/view/"></property>
+        <property name="suffix" value=".jsp"></property>
+    </bean>
+
+    <mvc:view-controller path="/" view-name="index"></mvc:view-controller>
+
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <!--拦截请求的controller路径，若没有controller，写具体包的路径-->
+            <mvc:exclude-mapping path="/nav/login"/>
+            <mvc:exclude-mapping path="/nav/loginError"/>
+            <mvc:exclude-mapping path="/nav/register"/>
+            <mvc:exclude-mapping path="/nav/index"/>
+            <mvc:exclude-mapping path="/nav/registerSuccess"/>
+            <mvc:exclude-mapping path="/nav/learning/**"/>
+            <mvc:exclude-mapping path="/nav/error"/>
+            <mvc:exclude-mapping path="/nav/alert"/>
+            <mvc:exclude-mapping path="/nav/test"/>
+            <mvc:exclude-mapping path="/user/loginIn"/>
+            <mvc:exclude-mapping path="/user/register"/>
+            <mvc:exclude-mapping path="/"/>
+            <mvc:exclude-mapping path="/captcha"/>
+            <mvc:exclude-mapping path="/getIp"/>
+            <!--本人也搞不懂为什么连js和css文件都进行拦截，但如果你做下面这两步，就有可能会报错
+            注意，这里说的只是有可能，具体什么意思，你试试就知道了
+            -->
+            <mvc:exclude-mapping path="/js/**"/>
+            <mvc:exclude-mapping path="/css/**"/>
+            <mvc:exclude-mapping path="/images/**"/>
+            <mvc:exclude-mapping path="/common/**"/>
+            <bean class="com.buuhybWL.www.interceptor.LoginInterceptor"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
+
+    <!--两个标准配置-->
+        <!--将SpringMVC不能处理的请求交给Tomcat-->
+    <mvc:default-servlet-handler/>
+        <!--加载注解驱动，支持JSR303校验，快捷ajax请求-->
+    <mvc:annotation-driven/>
+
+
+    <!--权限控制的注解驱动
+    jsr250-annotations="enabled" 需要导入jsr250的jar
+    pre-post-annotations="enabled" 支持spring的注解
+    secured-annotations="enabled" springSecurity提供的注解
+
+    -->
+
+
+</beans>

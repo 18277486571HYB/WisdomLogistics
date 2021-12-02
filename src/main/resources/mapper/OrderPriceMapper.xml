@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.buuhybWL.www.dao.OrderPriceMapper">
+  <resultMap id="BaseResultMap" type="com.buuhybWL.www.bean.OrderPrice">
+    <id column="op_id" jdbcType="INTEGER" property="opId" />
+    <result column="op_weight" jdbcType="INTEGER" property="opWeight" />
+    <result column="op_kinds" jdbcType="VARCHAR" property="opKinds" />
+    <result column="op_price" jdbcType="DOUBLE" property="opPrice" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    op_id, op_weight, op_kinds, op_price
+  </sql>
+  <select id="selectByExample" parameterType="com.buuhybWL.www.bean.OrderPriceExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from order_price
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from order_price
+    where op_id = #{opId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from order_price
+    where op_id = #{opId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.buuhybWL.www.bean.OrderPriceExample">
+    delete from order_price
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.buuhybWL.www.bean.OrderPrice">
+    insert into order_price (op_id, op_weight, op_kinds, 
+      op_price)
+    values (#{opId,jdbcType=INTEGER}, #{opWeight,jdbcType=INTEGER}, #{opKinds,jdbcType=VARCHAR}, 
+      #{opPrice,jdbcType=DOUBLE})
+  </insert>
+  <insert id="insertSelective" parameterType="com.buuhybWL.www.bean.OrderPrice">
+    insert into order_price
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="opId != null">
+        op_id,
+      </if>
+      <if test="opWeight != null">
+        op_weight,
+      </if>
+      <if test="opKinds != null">
+        op_kinds,
+      </if>
+      <if test="opPrice != null">
+        op_price,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="opId != null">
+        #{opId,jdbcType=INTEGER},
+      </if>
+      <if test="opWeight != null">
+        #{opWeight,jdbcType=INTEGER},
+      </if>
+      <if test="opKinds != null">
+        #{opKinds,jdbcType=VARCHAR},
+      </if>
+      <if test="opPrice != null">
+        #{opPrice,jdbcType=DOUBLE},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.buuhybWL.www.bean.OrderPriceExample" resultType="java.lang.Long">
+    select count(*) from order_price
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update order_price
+    <set>
+      <if test="record.opId != null">
+        op_id = #{record.opId,jdbcType=INTEGER},
+      </if>
+      <if test="record.opWeight != null">
+        op_weight = #{record.opWeight,jdbcType=INTEGER},
+      </if>
+      <if test="record.opKinds != null">
+        op_kinds = #{record.opKinds,jdbcType=VARCHAR},
+      </if>
+      <if test="record.opPrice != null">
+        op_price = #{record.opPrice,jdbcType=DOUBLE},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update order_price
+    set op_id = #{record.opId,jdbcType=INTEGER},
+      op_weight = #{record.opWeight,jdbcType=INTEGER},
+      op_kinds = #{record.opKinds,jdbcType=VARCHAR},
+      op_price = #{record.opPrice,jdbcType=DOUBLE}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.buuhybWL.www.bean.OrderPrice">
+    update order_price
+    <set>
+      <if test="opWeight != null">
+        op_weight = #{opWeight,jdbcType=INTEGER},
+      </if>
+      <if test="opKinds != null">
+        op_kinds = #{opKinds,jdbcType=VARCHAR},
+      </if>
+      <if test="opPrice != null">
+        op_price = #{opPrice,jdbcType=DOUBLE},
+      </if>
+    </set>
+    where op_id = #{opId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.buuhybWL.www.bean.OrderPrice">
+    update order_price
+    set op_weight = #{opWeight,jdbcType=INTEGER},
+      op_kinds = #{opKinds,jdbcType=VARCHAR},
+      op_price = #{opPrice,jdbcType=DOUBLE}
+    where op_id = #{opId,jdbcType=INTEGER}
+  </update>
+</mapper>

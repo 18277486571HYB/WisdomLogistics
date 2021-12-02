@@ -1,0 +1,89 @@
+
+.pageContent{
+
+}
+
+.page{
+    background-color: #FAFAFA;
+}
+.breadcrumb{
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-bottom: 0;
+    box-shadow: 10px 10px 10px #4484ba;
+    background: linear-gradient(to right,white,whitesmoke);
+}
+.row{
+    padding: 0;
+
+}
+.page-right{
+    margin-top: 10px;
+    padding-left: 0;
+    padding-right: 0;
+    height: 100%;
+    border-radius: 20px 20px 0 0;
+}
+
+
+.page-right-content{
+    width: 100%;
+    margin-top: 30px;
+    margin-bottom: 20px;
+    border-radius: 20px 10px 10px 20px;
+    background:linear-gradient(to right,white,ghostwhite);
+    box-shadow: -10px 10px 10px #4484ba;
+}
+
+.page-left{
+    margin-top: 10px;
+    margin-right: 50px;
+    box-shadow: -10px -10px 10px #4484ba;
+    background: linear-gradient(to right,whitesmoke,white);
+    padding: 0;
+    border-radius: 20px 20px 0 0;
+}
+
+
+.page-left ul:first-child li:first-child{
+    height: 100px;
+    background: linear-gradient(to right,
+    #2193b0,#4484ba);
+    border-radius: 20px 20px 0 0;
+}
+.page-left ul:first-child li:first-child h3{
+    text-align: center;
+    background-image: linear-gradient(to bottom ,red,#fd8403,yellow);
+    background-clip:text;
+    -webkit-background-clip:text;
+    color: transparent;
+}
+/*选择第二个子元素*/
+.page-left ul:nth-child(2) li a{
+    text-indent: 30px;
+}
+.page-right-content .col-md-8{
+    background: linear-gradient(to bottom, #2193b0, #6dd5ed);
+    border-radius: 5px;
+    margin-bottom: 50px;
+    box-shadow: 10px -10px 10px #4484ba;
+
+}
+
+.page-right-content .col-md-8 form{
+    margin-top: 50px;
+}
+
+#addresses table{
+    margin-right: 0;
+    margin-left: 0;
+}
+#addAddressBtn{
+    background:linear-gradient(to bottom, #a8ff78, #78ffd6);
+}
+#delAllAddressBtn,#delAddressBtn{
+    background: linear-gradient(to right, #fdc830, #f37335);
+}
+#setHobbyBtn{
+    background: linear-gradient(to right, #bc4e9c, #f80759);
+}
